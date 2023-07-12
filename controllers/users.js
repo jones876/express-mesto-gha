@@ -17,7 +17,14 @@ module.exports.getUserById = (req, res) => {
       }
       res.status(200).send({ user });
     })
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res
+          .status(400)
+          .send({ message: 'Переданы некорректные данные' });
+      }
+      res.status(500).send({ message: 'Произошла ошибка' });
+    });
 };
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
