@@ -16,7 +16,7 @@ app.use(express.json());
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 });
-app.use(errors());
+
 app.post(
   '/signin',
   celebrate({
@@ -45,6 +45,7 @@ app.post(
   }),
   createUser,
 );
+app.use(errors());
 app.use(auth);
 app.use(usersRoutes);
 app.use(cardsRoutes);
