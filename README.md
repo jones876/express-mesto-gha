@@ -1,7 +1,7 @@
 [![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
 # Проект Mesto фронтенд + бэкенд
 
-### Проектная работа, выполненная в рамках 13 спринта, в процессе обучения по программе **"ВЕБ-РАЗРАБОТЧИК"**  в *__ЯНДЕКС.ПРАКТИКУМЕ__*
+### Проектная работа, выполненная в рамках 13-14 спринта, в процессе обучения по программе **"ВЕБ-РАЗРАБОТЧИК"**  в *__ЯНДЕКС.ПРАКТИКУМЕ__*
 
 
 ## Технологии:
@@ -9,7 +9,7 @@
 + MongoDB
 + Express
 + Mongoose
-
+ ### Реализована авторизация пользователя, валидация, обработка ошибок.
 
 ([Ссылка на Проект](https://github.com/jones876/express-mesto-gha))
 
