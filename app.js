@@ -49,6 +49,7 @@ app.post(
 app.use(auth);
 app.use(usersRoutes);
 app.use(cardsRoutes);
+app.use(errors());
 app.use('*', () => {
   throw new NotFoundError('Страница не найдена');
 });
@@ -59,7 +60,7 @@ app.use((err, req, res, next) => {
   });
   next();
 });
-app.use(errors());
+
 app.listen(PORT, () => {
   console.log(`Приложение слушает порт: ${PORT}`);
 });
