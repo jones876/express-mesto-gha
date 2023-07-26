@@ -9,6 +9,8 @@
 + MongoDB
 + Express
 + Mongoose
++ Validator
++ Celebrate
  ### Реализована авторизация пользователя, валидация, обработка ошибок.
 
 ([Ссылка на Проект](https://github.com/jones876/express-mesto-gha))
