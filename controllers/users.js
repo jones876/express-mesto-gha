@@ -29,7 +29,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res, next) => {
-  User.findById(req.params.userId)
+  User.findById(req.user._id)
 
     .then((user) => {
       if (!user) {
