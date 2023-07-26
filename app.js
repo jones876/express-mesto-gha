@@ -45,7 +45,7 @@ app.post(
   }),
   createUser,
 );
-app.use(errors());
+
 app.use(auth);
 app.use(usersRoutes);
 app.use(cardsRoutes);
@@ -59,6 +59,7 @@ app.use((err, req, res, next) => {
   });
   next();
 });
+app.use(errors());
 app.listen(PORT, () => {
   console.log(`Приложение слушает порт: ${PORT}`);
 });
