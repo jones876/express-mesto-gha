@@ -48,10 +48,11 @@ app.post(
 app.use(auth);
 app.use(usersRoutes);
 app.use(cardsRoutes);
-app.use(errors());
+
 app.use('*', () => {
   throw new NotFoundError('Страница не найдена');
 });
+app.use(errors());
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
