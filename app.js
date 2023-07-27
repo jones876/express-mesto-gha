@@ -46,8 +46,8 @@ app.post(
 );
 
 app.use(auth);
-app.use(usersRoutes);
-app.use(cardsRoutes);
+app.use('/users', usersRoutes);
+app.use('/cards', cardsRoutes);
 
 app.use('*', () => {
   throw new NotFoundError('Страница не найдена');
