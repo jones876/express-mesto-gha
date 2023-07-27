@@ -60,13 +60,13 @@ module.exports.createUser = (req, res, next) => {
       });
     })
 
-    .then((user) => res.send(user))
+    .then((user) => res.send({ user }))
 
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные'));
-      } else if (err.code === 11000) {
+      if (err.code === 11000) {
         next(new ConflictError('Такой E-mail уже зарегестрирован'));
+      } else if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные'));
       }
     })
     .catch(next);
