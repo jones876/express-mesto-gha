@@ -46,28 +46,30 @@ module.exports.getUserById = (req, res, next) => {
 };
 module.exports.createUser = (req, res, next) => {
   const {
-    name, about, avatar, email, password,
+    name, about, avatar, email,
   } = req.body;
   bcrypt
-    .hash(password, 10)
+    .hash(req.body.password, 10)
     .then((hash) => {
-      User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      });
-    })
+      User
+        .create({
+          name, about, avatar, email, password: hash,
+        })
+        .then((user) => res.send({
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          email: user.email,
+          _id: user._id,
+        }))
 
-    .then((user) => res.send({ user }))
-
-    .catch((err) => {
-      if (err.code === 11000) {
-        next(new ConflictError('Такой E-mail уже зарегестрирован'));
-      } else if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные'));
-      }
+        .catch((err) => {
+          if (err.code === 11000) {
+            next(new ConflictError('Такой E-mail уже зарегестрирован'));
+          } else if (err.name === 'ValidationError') {
+            next(new BadRequestError('Переданы некорректные данные'));
+          }
+        });
     })
     .catch(next);
 };
