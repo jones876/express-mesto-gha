@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const { errors, celebrate, Joi } = require('celebrate');
 
@@ -10,7 +12,7 @@ const auth = require('./middlewares/auth');
 
 const NotFoundError = './utils/errors/NotFoundError.js';
 const app = express();
-
+app.use(cookieParser());
 app.use(express.json());
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
