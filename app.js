@@ -9,7 +9,6 @@ const cardsRoutes = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 
-const NotFoundError = './utils/errors/NotFoundError.js';
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -48,10 +47,10 @@ app.post(
 app.use(auth);
 app.use('/users', usersRoutes);
 app.use('/cards', cardsRoutes);
-
-app.use('*', () => {
-  throw new NotFoundError('Страница не найдена');
+app.use('*', (req, res) => {
+  res.status(404).json({ message: 'Страница не найдена' });
 });
+
 app.use(errors());
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
