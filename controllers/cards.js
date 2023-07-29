@@ -25,27 +25,20 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  const userId = req.user._id;
-  const { cardId } = req.params;
-
-  Card.findById(cardId)
+  const id = req.user._id;
+  Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка не найдена');
       }
-
-      if (card.owner.toString() !== userId) {
+      if (card.owner.toString() !== id) {
         throw new ForbiddenError('Нет доступа для удаления данной карточки');
-      }
-
-      return Card.findByIdAndRemove(cardId);
-    })
-    .then(() => {
-      res.send({ message: 'Карточка успешно удалена' });
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+      } else {
+        Card.findByIdAndDelete(req.params.cardId)
+          .then(() => {
+            res.send({ message: 'Карточка успешно удалена' });
+          })
+          .catch(next);
       }
     })
     .catch(next);
