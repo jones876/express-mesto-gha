@@ -14,14 +14,15 @@ module.exports.createCard = (req, res, next) => {
 
   const owner = req.user._id;
   Card.create({ name, link, owner })
-    .then((card) => res.send({ card }))
+    .then((card) => res.status(201).send({ card }))
 
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные'));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports.deleteCard = (req, res, next) => {
@@ -34,7 +35,7 @@ module.exports.deleteCard = (req, res, next) => {
       if (card.owner.toString() !== id) {
         throw new ForbiddenError('Нет доступа для удаления данной карточки');
       } else {
-        Card.findByIdAndDelete(req.params.cardId)
+        Card.deleteOne(card)
           .then(() => {
             res.send({ message: 'Карточка успешно удалена' });
           })
@@ -61,9 +62,10 @@ module.exports.likeCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные'));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports.dislikeCard = (req, res, next) => {
@@ -83,7 +85,8 @@ module.exports.dislikeCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные'));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
