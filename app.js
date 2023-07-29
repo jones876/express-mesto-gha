@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
@@ -12,9 +11,8 @@ const auth = require('./middlewares/auth');
 
 const NotFoundError = './utils/errors/NotFoundError.js';
 const app = express();
-app.use(cookieParser());
 app.use(express.json());
-
+app.use(cookieParser());
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 });

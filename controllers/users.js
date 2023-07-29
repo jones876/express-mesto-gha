@@ -1,13 +1,10 @@
-require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const NotFoundError = require('../utils/errors/NotFoundError');
 const BadRequestError = require('../utils/errors/BadRequestError');
 const ConflictError = require('../utils/errors/ConflictError');
-
 const User = require('../models/user');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
 module.exports.getAllUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({ users }))
@@ -122,18 +119,16 @@ module.exports.updateAvatar = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
+
+  return User
+    .findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
-        expiresIn: '7d',
-      });
+      const token = jwt.sign({ _id: user._id }, 'super-secret', { expiresIn: '7d' });
       res
         .cookie('jwt', token, {
-          maxAge: 3600000,
           httpOnly: true,
-        })
-        .send({ token });
+          sameSite: true,
+        }).send({ token });
     })
-
     .catch(next);
 };
