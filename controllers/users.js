@@ -28,7 +28,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res, next) => {
-  User.findById(req.params.id)
+  User.findById(req.params.userId)
 
     .then((user) => {
       if (!user) {
@@ -43,6 +43,7 @@ module.exports.getUserById = (req, res, next) => {
     })
     .catch(next);
 };
+
 module.exports.createUser = (req, res, next) => {
   const {
     name, about, avatar, email,
