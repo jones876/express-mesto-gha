@@ -32,9 +32,9 @@ module.exports.getUserById = (req, res, next) => {
 
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не найден');
+        return next(new NotFoundError('Пользователь не найден'));
       }
-      res.send({ user });
+      return res.send({ user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -126,6 +126,7 @@ module.exports.login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, 'super-secret', { expiresIn: '7d' });
       res
         .cookie('jwt', token, {
+          maxAge: 7 * 24 * 60 * 60,
           httpOnly: true,
           sameSite: true,
         }).send({ token });
