@@ -22,9 +22,10 @@ module.exports.getCurrentUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные'));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports.getUserById = (req, res, next) => {
@@ -56,7 +57,7 @@ module.exports.createUser = (req, res, next) => {
         .create({
           name, about, avatar, email, password: hash,
         })
-        .then((user) => res.send({
+        .then((user) => res.status(201).send({
           name: user.name,
           about: user.about,
           avatar: user.avatar,
